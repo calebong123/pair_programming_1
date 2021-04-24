@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pair_programming_1/screen/home/bottom.dart';
+import 'package:pair_programming_1/screen/home/widgets/icon.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'My Icon'),
     );
   }
 }
@@ -28,76 +30,116 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double size = 40.0;
-  var red = 36;
-  var green = 0;
-  var blue = 0;
+  double _size = 100;
+  double _red = 255;
+  double _green = 0;
+  double _blue = 0;
+  bool _resizeChecked = true;
+  bool _colorChecked = true;
+
+  double get getSize => _size;
+
+  bool get getColorChecked => _colorChecked;
+  set setSize(double value) {
+    setState(() {
+      _size = value;
+    });
+  }
+
+  double get getRed => _red;
+
+  set setRed(double value) {
+    setState(() {
+      _red = value;
+    });
+  }
+
+  double get getGreen => _green;
+
+  set setGreen(double value) {
+    setState(() {
+      _green = value;
+    });
+  }
+
+  double get getBlue => _blue;
+
+  set setBlue(double value) {
+    setState(() {
+      _blue = value;
+    });
+  }
+
+  void minSize() {
+    setState(() {
+      _size = _size - 50.0;
+    });
+  }
+
+  void maxSize() {
+    setState(() {
+      _size = _size + 50.0;
+    });
+  }
+
+  void donothing() {}
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        bottomSheet: Row(
-          children: [
-            firstRow(),
-          ],
+        drawer: Drawer(
+          child: ListView(children: [
+            CheckboxListTile(
+              title: Text('Allow resize'),
+              value: _resizeChecked,
+              onChanged: (bool value) {
+                setState(() {
+                  _resizeChecked = value;
+                });
+              },
+            ),
+            CheckboxListTile(
+                title: Text('Allow change primer color?'),
+                value: _colorChecked,
+                onChanged: (bool value) {
+                  setState(() => _colorChecked = value);
+                }),
+          ]),
         ),
         appBar: AppBar(
           title: Text(widget.title),
+          actions: [
+            if (_resizeChecked)
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.remove_circle_rounded),
+                      onPressed: minSize),
+                  IconButton(
+                      icon: Icon(Icons.remove_circle_rounded),
+                      onPressed: () => setSize = 100.0),
+                  IconButton(
+                      icon: Icon(Icons.remove_circle_rounded),
+                      onPressed: () => setSize = 300.0),
+                  IconButton(
+                      icon: Icon(Icons.remove_circle_rounded),
+                      onPressed: () => setSize = 400.0),
+                  IconButton(
+                      icon: Icon(Icons.add_circle_outline), onPressed: maxSize),
+                ],
+              )
+          ],
         ),
         body: Center(
-          child: Icon(
-            Icons.alarm,
-            color: Color.fromRGBO(red, green, blue, 1.0),
-            size: 400.0,
+          child: BodyIcon(
+            size: getSize,
+            red: getRed,
+            green: getGreen,
+            blue: getBlue,
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
-  }
-
-  SizedBox firstRow() {
-    return SizedBox(
-      height: 100,
-      child: Slider(
-        value: size,
-        min: 5.0,
-        max: 50.0,
-        onChanged: (value) {
-          size = value;
-        },
-      ),
-    );
-  }
-
-  SizedBox secondRow() {
-    return SizedBox(
-      height: 100,
-      child: Slider(
-        value: size,
-        min: 5.0,
-        max: 50.0,
-        onChanged: (value) {
-          size = value;
-        },
-      ),
-    );
-  }
-
-  SizedBox thirdRow() {
-    return SizedBox(
-      height: 100,
-      child: Slider(
-        value: size,
-        min: 5.0,
-        max: 50.0,
-        onChanged: (value) {
-          size = value;
-        },
+        bottomNavigationBar: Bottom(state: this),
       ),
     );
   }
