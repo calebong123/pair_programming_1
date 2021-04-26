@@ -101,9 +101,12 @@ Widget buttonORtext(
               }),
         )
       : Expanded(
-          flex: 3,
-          child: Text(
-            (color),
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 35.0),
+            child: Text(
+              (color),
+            ),
           ),
         );
 }

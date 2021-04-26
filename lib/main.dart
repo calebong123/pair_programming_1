@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pair_programming_1/screen/home/appbar.dart';
 import 'package:pair_programming_1/screen/home/bottom.dart';
 import 'package:pair_programming_1/screen/home/widgets/icon.dart';
 
@@ -31,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _size = 100;
-  double _red = 255;
+  double _red = 0;
   double _green = 0;
   double _blue = 0;
   bool _resizeChecked = true;
@@ -110,25 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text(widget.title),
           actions: [
-            if (_resizeChecked)
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.remove_circle_rounded),
-                      onPressed: minSize),
-                  IconButton(
-                      icon: Icon(Icons.remove_circle_rounded),
-                      onPressed: () => setSize = 100.0),
-                  IconButton(
-                      icon: Icon(Icons.remove_circle_rounded),
-                      onPressed: () => setSize = 300.0),
-                  IconButton(
-                      icon: Icon(Icons.remove_circle_rounded),
-                      onPressed: () => setSize = 400.0),
-                  IconButton(
-                      icon: Icon(Icons.add_circle_outline), onPressed: maxSize),
-                ],
-              )
+            if (_resizeChecked) AppBarIcon(this),
           ],
         ),
         body: Center(
